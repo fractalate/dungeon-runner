@@ -71,10 +71,6 @@ export default function App() {
   const this_stage = seconds_elapsed > 0 ? stage[split_number] : "ready!"
 
   const startTimer = () => {
-    if (!unlocked) {
-      setUnlocked(true)
-    }
-    playJostle()
     timer.reset()
     timer.start()
   }
@@ -88,10 +84,11 @@ export default function App() {
     }
   }, [])
 
-  const [unlocked, setUnlocked] = useState(false)
   useEffect(() => {
-    playJostle()
-  }, [state, split_number])
+    if (state != "ready") {
+      playJostle()
+    }
+  }, [state, split_number, timer.time_started]) // XXX Really not supposed to use timer.time_started here
 
   return (
     <main className="min-h-dvh bg-background text-foreground">
