@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button"
-import { Timer } from "@/lib/timer"
 import { useContext, useEffect, useState } from "react";
 import useSound from "use-sound";
-import jostle from "../public/jostle.mp3";
+import jostle from "./jostle.mp3";
 import { TimerContext } from "./TimerContext";
 import { SelectedProgramContext } from "./SelectedProgramContext";
 import ProgramSelector from "./ProgramSelector";

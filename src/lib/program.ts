@@ -38,8 +38,8 @@ function walk(duration: number) {
 }
 
 export const PROGRAM_PRESETS: Record<string, Program> = {
-  phase_a: {
-    name: "Phase A",
+  program_a: {
+    name: "Program A",
     description: "1:00 on, 1:30 off, 20:00 active",
     splits: [
       warm_up(),
@@ -62,8 +62,8 @@ export const PROGRAM_PRESETS: Record<string, Program> = {
       cool_down(),
     ]
   },
-  phase_b: {
-    name: "Phase B",
+  program_b: {
+    name: "Program B",
     description: "1:00 on, 1:15 off, 20:00 active",
     splits: [
       warm_up(),
@@ -88,8 +88,8 @@ export const PROGRAM_PRESETS: Record<string, Program> = {
       cool_down(),
     ]
   },
-  phase_c: {
-    name: "Phase C",
+  program_c: {
+    name: "Program C",
     description: "1:15 on, 1:15 off, 20:00 active",
     splits: [
       warm_up(),
