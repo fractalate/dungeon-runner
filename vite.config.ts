@@ -10,5 +10,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: '/dungeon-runner/',
+  base: "/dungeon-runner/",
 })

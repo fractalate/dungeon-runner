@@ -37,7 +37,7 @@ function walk(duration: number) {
   }
 }
 
-export const PROGRAM_PRESETS: Record<string, Program> = {
+export const PROGRAM_PRESETS = {
   program_a: {
     name: "Program A",
     description: "1:00 on, 1:30 off, 20:00 active",

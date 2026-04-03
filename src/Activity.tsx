@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"
-import { useContext, useEffect, useState } from "react";
-import useSound from "use-sound";
-import jostle from "./jostle.mp3";
-import { TimerContext } from "./TimerContext";
-import { SelectedProgramContext } from "./SelectedProgramContext";
-import ProgramSelector from "./ProgramSelector";
+import { useContext, useEffect, useState } from "react"
+import useSound from "use-sound"
+import jostle from "./jostle.mp3"
+import { TimerContext } from "./TimerContext"
+import { SelectedProgramContext } from "./SelectedProgramContext"
+import ProgramSelector from "./ProgramSelector"
 
 function formatTime(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -14,10 +14,10 @@ function formatTime(seconds: number) {
 }
 
 export default function Activity() {
-  const [_, setCurrentTime] = useState(new Date().getTime() / 1000);
+  const [_, setCurrentTime] = useState(new Date().getTime() / 1000)
   const { timer } = useContext(TimerContext)
   const { selectedProgram } = useContext(SelectedProgramContext)
-  const [playJostle] = useSound(jostle);
+  const [playJostle] = useSound(jostle)
   const {
     seconds_elapsed,
     seconds_remaining,
