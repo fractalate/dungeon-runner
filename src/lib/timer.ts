@@ -1,91 +1,10 @@
-/*
-interface TimerListener {
-  onStarted?: (timer: Timer) => void
-  onSplit?: (timer: Timer, split_number: number) => void
-  onFinished?: (timer: Timer) => void
-}
-
-class Timer {
-  state: "ready" | "running" | "done"
-  splits: number[]
-  listeners: TimerListener[]
-
-  constructor(splits: number[]) {
-    for (const split of splits) {
-      if (split <= 0) {
-        throw new Error(`invalid split ${split}`)
-      }
-    }
-
-    this.state = "ready"
-    this.splits = [...splits]
-    this.listeners = []
-  }
-
-  addListener(listener: TimerListener) {
-    this.listeners.push(listener)
-  }
-
-  removeListener(listener: TimerListener) {
-    this.listeners = this.listeners.filter((l) => l != listener)
-  }
-
-  start() {
-    if (this.state != "ready") {
-      throw new Error("not ready")
-    }
-
-    this.state = "running"
-
-    this._startSplit(0)
-
-    setImmediate(() => {
-      for (const listener of this.listeners) {
-        if (listener.onStarted) {
-          listener.onStarted(this)
-        }
-      }
-    });
-  }
-
-  _startSplit(split_number: number) {
-    if (split_number < this.splits.length) {
-      setTimeout(() => {
-        this._startSplit(split_number + 1)
-      }, this.splits[split_number] * 1000)
-
-      setImmediate(() => {
-        for (const listener of this.listeners) {
-          if (listener.onSplit) {
-            listener.onSplit(this, split_number)
-          }
-        }
-      });
-    } else {
-      this._finish()
-    }
-  }
-
-  _finish() {
-    this.state = "done"
-
-    setImmediate(() => {
-      for (const listener of this.listeners) {
-        if (listener.onFinished) {
-          listener.onFinished(this)
-        }
-      }
-    });
-  }
-}
-*/
-
 interface Time {
   seconds_elapsed: number
   seconds_remaining: number
   split_number: number
   split_seconds_elapsed: number
   split_seconds_remaining: number
+  state: "ready" | "running" | "paused" | "done"
 }
 
 function getSeconds(): number {
@@ -158,7 +77,15 @@ export class Timer {
           split_seconds_elapsed -= split
         }
       }
+    }
 
+    let state: "ready" | "running" | "paused" | "done" = "ready"
+    if (this.time_paused > 0) {
+      state = "paused"
+    } else if (this.time_started > 0 && seconds_remaining == 0) {
+      state = "done"
+    } else if (this.time_started > 0) {
+      state = "running"
     }
 
     return {
@@ -167,6 +94,7 @@ export class Timer {
       split_number,
       split_seconds_elapsed,
       split_seconds_remaining,
+      state,
     }
   }
 }

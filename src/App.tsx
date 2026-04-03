@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { Timer } from "@/lib/timer"
 import { useEffect, useState } from "react";
+import useSound from "use-sound";
+import jostle from "../public/jostle.mp3";
 
 const splits = [
   5 * 60,
@@ -52,13 +54,10 @@ function formatTime(seconds: number) {
   return ("" + min).padStart(2, "0") + ":" + ("" + sec).padStart(2, "0")
 }
 
-function startTimer() {
-  timer.reset()
-  timer.start()
-}
-
 export default function App() {
   const [_, setCurrentTime] = useState(new Date().getTime() / 1000);
+
+  const [playJostle] = useSound(jostle);
 
   const {
     seconds_elapsed,
@@ -66,9 +65,19 @@ export default function App() {
     split_number,
     split_seconds_elapsed,
     split_seconds_remaining,
+    state,
   } = timer.time()
 
   const this_stage = seconds_elapsed > 0 ? stage[split_number] : "ready!"
+
+  const startTimer = () => {
+    if (!unlocked) {
+      setUnlocked(true)
+    }
+    playJostle()
+    timer.reset()
+    timer.start()
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -78,6 +87,11 @@ export default function App() {
       clearInterval(interval)
     }
   }, [])
+
+  const [unlocked, setUnlocked] = useState(false)
+  useEffect(() => {
+    playJostle()
+  }, [state, split_number])
 
   return (
     <main className="min-h-dvh bg-background text-foreground">
@@ -106,10 +120,13 @@ export default function App() {
             <p className="mt-2 text-sm text-muted-foreground">
               split seconds remaining: {formatTime(split_seconds_remaining)}
             </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              ({state})
+            </p>
           </div>
 
           <Button size="lg" className="h-12 rounded-xl" onClick={() => startTimer()}>
-            Continue
+            Start!
           </Button>
         </section>
       </div>
