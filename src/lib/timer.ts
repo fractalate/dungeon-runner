@@ -1,4 +1,4 @@
-interface Time {
+export interface Time {
   seconds_elapsed: number
   seconds_remaining: number
   split_number: number

@@ -1,11 +1,14 @@
 import Activity from "./Activity"
+import PlayerProviderLocalStorage from "./PlayerProviderLocalStorage"
 import SelectedProgramProvider from "./SelectedProgramProvider"
 import TimerProvider from "./TimerProvider"
 
 export default function App() {
-  return <SelectedProgramProvider>
-    <TimerProvider>
-      <Activity />
-    </TimerProvider>
-  </SelectedProgramProvider>
+  return <PlayerProviderLocalStorage>
+    <SelectedProgramProvider>
+      <TimerProvider>
+        <Activity />
+      </TimerProvider>
+    </SelectedProgramProvider>
+  </PlayerProviderLocalStorage>
 }

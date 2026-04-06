@@ -7,7 +7,7 @@ interface SelectedProgramContextType {
 }
 
 const NULL_SELECTED_PROGRAM_CONTEXT = {
-  selectedProgram: PROGRAM_PRESETS.program_a,
+  selectedProgram: PROGRAM_PRESETS.short,
   setSelectedProgram: () => {},
 }
 

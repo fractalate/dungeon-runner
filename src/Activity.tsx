@@ -5,6 +5,7 @@ import jostle from "./jostle.mp3"
 import { TimerContext } from "./TimerContext"
 import { SelectedProgramContext } from "./SelectedProgramContext"
 import ProgramSelector from "./ProgramSelector"
+import { getScore } from "./lib/program"
 
 function formatTime(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -18,6 +19,7 @@ export default function Activity() {
   const { timer } = useContext(TimerContext)
   const { selectedProgram } = useContext(SelectedProgramContext)
   const [playJostle] = useSound(jostle)
+  const time = timer.time()
   const {
     seconds_elapsed,
     seconds_remaining,
@@ -25,7 +27,11 @@ export default function Activity() {
     split_seconds_elapsed,
     split_seconds_remaining,
     state,
-  } = timer.time()
+  } = time
+  const {
+    multiplier,
+    exp_gained,
+  } = getScore(selectedProgram, time)
   const this_stage = seconds_elapsed > 0 ? selectedProgram.splits[split_number].title : "Ready!"
 
   const startTimer = async () => {
@@ -64,6 +70,12 @@ export default function Activity() {
             <p className="mt-2 text-md">
               {selectedProgram.name}
             </p>
+            <p className="mt-2 text-md">
+              Exp: {exp_gained.toFixed(0)}
+            </p>
+            <p className="mt-2 text-md">
+              Multiplier: {multiplier.toFixed(1)}x
+            </p>
             <p className="mt-2 text-sm">
               {this_stage}
             </p>
@@ -81,6 +93,9 @@ export default function Activity() {
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
               split seconds remaining: {formatTime(split_seconds_remaining)}
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {state}
             </p>
           </div>
 
