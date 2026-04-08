@@ -22,9 +22,9 @@ function warm_up(): Split {
   }
 }
 
-function cool_down(): Split {
+function cool_down(duration?: number): Split {
   return {
-    duration: 5 * 60,
+    duration: duration && duration > 0 ? duration : 5 * 60,
     title: "Cool Down",
     effort_level: "walk",
     additional_multiplier: 0.2,
@@ -56,6 +56,7 @@ function walk(duration: number): Split {
 }
 
 export const PROGRAM_PRESETS = {
+  /*
   short: {
     name: "Test",
     description: "for quick tests",
@@ -65,8 +66,9 @@ export const PROGRAM_PRESETS = {
       walk(15),
     ],
   },
-  program_a: {
-    name: "Program A",
+  */
+  program_a1: {
+    name: "Program A1",
     description: "1:00 on, 1:30 off, 20:00 active",
     splits: [
       warm_up(),
@@ -89,8 +91,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  program_b: {
-    name: "Program B",
+  program_a2: {
+    name: "Program A2",
     description: "1:00 on, 1:15 off, 20:00 active",
     splits: [
       warm_up(),
@@ -115,8 +117,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  program_c: {
-    name: "Program C",
+  program_b1: {
+    name: "Program B1",
     description: "1:15 on, 1:15 off, 20:00 active",
     splits: [
       warm_up(),
@@ -137,6 +139,78 @@ export const PROGRAM_PRESETS = {
       run(75),
       walk(75),
       cool_down(),
+    ]
+  },
+  program_b2: {
+    name: "Program B2",
+    description: "1:15 on, 1:00 off, 20:00 active",
+    splits: [
+      warm_up(),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(60),
+      run(75),
+      walk(45),
+      cool_down(),
+    ]
+  },
+  bike_hiit_a1: {
+    name: "Bike HIIT A1",
+    description: "1:00 sprint, 1:30 walk, 1:30 run, 20:00 active",
+    splits: [
+      warm_up(),
+      sprint(60),
+      walk(90),
+      run(90),
+      walk(90),
+      sprint(60),
+      walk(90),
+      run(90),
+      walk(90),
+      sprint(60),
+      walk(90),
+      run(90),
+      walk(90),
+      sprint(60),
+      walk(90),
+      sprint(60),
+      cool_down(),
+    ]
+  },
+  bike_hiit_a2: {
+    name: "Bike HIIT A2",
+    description: "1:15 sprint, 1:30 walk, 1:15 run, 20:30 active",
+    splits: [
+      warm_up(),
+      sprint(75),
+      walk(90),
+      run(75),
+      walk(90),
+      sprint(75),
+      walk(90),
+      run(75),
+      walk(90),
+      sprint(75),
+      walk(90),
+      run(75),
+      walk(90),
+      sprint(75),
+      walk(90),
+      sprint(75),
+      cool_down(4*60 + 30),
     ]
   },
 }

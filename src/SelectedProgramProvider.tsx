@@ -7,7 +7,7 @@ type SelectedProgramProviderProps = {
 }
 
 export default function SelectedProgramProvider({ children }: SelectedProgramProviderProps) {
-  const [selectedProgram, setSelectedProgram] = useState(PROGRAM_PRESETS.short)
+  const [selectedProgram, setSelectedProgram] = useState(PROGRAM_PRESETS.program_a1)
 
   return <SelectedProgramContext.Provider value={{
     selectedProgram,
