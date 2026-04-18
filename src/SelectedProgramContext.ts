@@ -3,7 +3,7 @@ import { Program, PROGRAM_PRESETS } from "./lib/program"
 
 interface SelectedProgramContextType {
   selectedProgram: Program,
-  setSelectedProgram: (program: Program) => void,
+  setSelectedProgram: (program_identifier: string, program: Program) => void,
 }
 
 const NULL_SELECTED_PROGRAM_CONTEXT = {

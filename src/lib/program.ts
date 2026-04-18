@@ -55,18 +55,37 @@ function walk(duration: number): Split {
   }
 }
 
+function misc(duration: number, title: string): Split {
+  return {
+    duration,
+    title,
+    effort_level: "walk",
+  };
+}
+
 export const PROGRAM_PRESETS = {
-  /*
-  short: {
-    name: "Test",
-    description: "for quick tests",
+  quick_exp: {
+    name: "Quick EXP",
+    description: "0:10 walk, 0:30 run, 0:30 sprint, 1:00 walk",
     splits: [
-      run(15),
-      sprint(15),
-      walk(15),
+      walk(10),
+      run(30),
+      sprint(30),
+      walk(60),
+    ]
+  },
+  video_log: {
+    name: "Video Log",
+    description: "2:00, 3:00, 1:00, 1:00, 2:00, 1:00",
+    splits: [
+      misc(60*2, "How am I?"),
+      misc(60*3, "My Day"),
+      misc(60*1, "Important Thing 1"),
+      misc(60*1, "Important Thing 2"),
+      misc(60*2, "Important Thing 3"),
+      misc(60*1, "Tomorrow/Goal"),
     ],
   },
-  */
   program_a1: {
     name: "Program A1",
     description: "1:00 on, 1:30 off, 20:00 active",
@@ -225,20 +244,20 @@ interface SplitScore {
   exp_gained: number,
 }
 
-const POINTS_PER_SECOND = 3
+const POINTS_PER_SECOND = 1
 
 function updateScore(score: Score, split: Split, secondsInSplit: number): Score {
   let effort_factor = 0.0
   let increments = 0.0
   if (split.effort_level == "run") {
     effort_factor = 0.1
-    increments = Math.floor(secondsInSplit / 5 + 0.00001)
+    increments = Math.floor(secondsInSplit / 5 + 0.000001)
   } else if (split.effort_level == "sprint") {
     effort_factor = 0.1
-    increments = Math.floor(secondsInSplit / 2 + 0.5 + 0.00001)
+    increments = Math.floor(secondsInSplit / 2 + 0.5 + 0.000001)
   } else { // "walk"
     effort_factor = -0.1
-    increments = Math.floor(secondsInSplit / 10 + 0.5 + 0.00001)
+    increments = Math.floor(secondsInSplit / 10 + 0.5 + 0.000001)
   }
 
   // Exp is gained continuously.
@@ -289,7 +308,7 @@ export function getScore(program: Program, time: Time): Score {
       if (split.additional_multiplier) {
         score.multiplier += split.additional_multiplier 
       }
-      break;
+      break
     }
   }
 

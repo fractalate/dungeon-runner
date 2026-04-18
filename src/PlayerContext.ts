@@ -1,10 +1,5 @@
 import { createContext } from "react"
-
-export interface Player {
-  level: number,
-  exp_gained: number,
-  programs_finished: number,
-}
+import { Player } from "./lib/player"
 
 interface PlayerContextType {
   player: Player,
