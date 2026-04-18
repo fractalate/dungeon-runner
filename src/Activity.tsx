@@ -42,6 +42,7 @@ export default function Activity() {
     if ("wakeLock" in navigator) {
       await navigator.wakeLock.request("screen")
     }
+    timer.reset()
     timer.start()
   }
 
