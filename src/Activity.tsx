@@ -76,7 +76,7 @@ export default function Activity() {
     if (state == "done") {
       setPlayer(gameRulePlayerFinishProgram(player, score))
     }
-  }, [state]);
+  }, [state])
 
   return (
     <main className="min-h-dvh bg-background text-foreground">

@@ -60,7 +60,7 @@ function misc(duration: number, title: string): Split {
     duration,
     title,
     effort_level: "walk",
-  };
+  }
 }
 
 export const PROGRAM_PRESETS = {
