@@ -7,12 +7,16 @@ type PlayerProviderLocalStorageProps = {
 }
 
 export default function PlayerProviderLocalStorage({ children }: PlayerProviderLocalStorageProps) {
-  const stored_player = useMemo(() => {
+  const stored_player: Player = useMemo(() => {
     const playerData = localStorage.getItem("player.current")
 
     if (playerData) {
       try {
-        return JSON.parse(playerData) as Player
+        const result = JSON.parse(playerData)
+        if (result.events == null) {
+          result.events = []
+        }
+        return result as Player
       } catch (err) {
         console.error(err)
       }
@@ -24,7 +28,8 @@ export default function PlayerProviderLocalStorage({ children }: PlayerProviderL
       level: 1,
       exp_gained: 0,
       programs_finished: 0,
-    } as Player
+      events: [],
+    }
   }, [])
 
   const [player, _setPlayer] = useState(stored_player)

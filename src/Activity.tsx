@@ -9,6 +9,7 @@ import { getScore } from "./lib/program"
 import PlayerStats from "./PlayerStats"
 import { PlayerContext } from "./PlayerContext"
 import { gameRulePlayerFinishProgram } from "./lib/game"
+import PlayerEventInfo from "./PlayerEventInfo"
 
 function formatTime(seconds: number) {
   const min = Math.floor(seconds / 60)
@@ -72,9 +73,10 @@ export default function Activity() {
     }
   }, [state, split_number, timer.time_started]) // XXX Really not supposed to use timer.time_started here
 
+  // This is a really dumb useEffect. it depends only on `state` because that's all it makes sense to depend on.
   useEffect(() => {
     if (state == "done") {
-      setPlayer(gameRulePlayerFinishProgram(player, score))
+      setPlayer(gameRulePlayerFinishProgram(player, selectedProgram, score))
     }
   }, [state])
 
@@ -87,6 +89,7 @@ export default function Activity() {
 
         <section className="flex flex-1 flex-col justify-center gap-4 py-6">
           <ProgramSelector />
+          <PlayerEventInfo />
           <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <p className="mt-2 text-md">
               Exp: {score.exp_gained.toFixed(0)}
