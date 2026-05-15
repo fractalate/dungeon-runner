@@ -1,4 +1,3 @@
-import { MoveUpLeft, Split, X } from "lucide-react"
 import { Time } from "./timer"
 
 export interface Split {
