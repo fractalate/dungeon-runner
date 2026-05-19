@@ -11,25 +11,25 @@ export default function SelectedProgramProviderLocalStorage({ children }: Select
     const programIdentifier = localStorage.getItem("program.current")
 
     if (programIdentifier) {
-      if (programIdentifier in PROGRAM_PRESETS) {
-        return PROGRAM_PRESETS[programIdentifier as keyof typeof PROGRAM_PRESETS]
+      for (const program of PROGRAM_PRESETS) {
+        if (program.identifier == programIdentifier) {
+          return program
+        }
       }
     }
 
     console.log("no selected program. selecting default")
 
-    return PROGRAM_PRESETS.program_a1
+    return PROGRAM_PRESETS[0]
   }, [])
   
   const [selectedProgram, _setSelectedProgram] = useState(storedProgram)
 
-  const setSelectedProgram = (program_identifier: string, program: Program) => {
-    if (program_identifier in PROGRAM_PRESETS) {
-      localStorage.setItem("program.current", program_identifier)
-    } else {
-      localStorage.removeItem("program.current")
+  const setSelectedProgram = (program: Program) => {
+    if (selectedProgram.identifier != program.identifier) {
+      localStorage.setItem("program.current", program.identifier)
+      _setSelectedProgram(structuredClone(program))
     }
-    _setSelectedProgram(structuredClone(program))
   }
   
   return <SelectedProgramContext.Provider value={{

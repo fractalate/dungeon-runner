@@ -115,9 +115,11 @@ export default function Activity() {
             <p className="mt-2 text-sm text-muted-foreground">
               split seconds remaining: {formatTime(split_seconds_remaining)}
             </p>
+            {/*
             <p className="mt-2 text-sm text-muted-foreground">
               DEBUG -- {state} --
             </p>
+            */}
           </div>
 
           {(state == "ready" || state == "done") && (

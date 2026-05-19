@@ -11,23 +11,24 @@ export default function ProgramSelector() {
     setSelectorOpen(true)
   }
 
-  const onSelectProgram = (programIdentifier: string, program: Program) => {
-    setSelectedProgram(programIdentifier, program)
+  const onSelectProgram = (program: Program) => {
+    setSelectedProgram(program)
     setSelectorOpen(false)
   }
 
   if (!selectorOpen) {
     return <Button key={selectedProgram.name} size="lg" className="h-12 rounded-xl" onClick={() => onOpenSelector()}>
-      {selectedProgram.name} - {selectedProgram.description}
+      {selectedProgram.name} - {selectedProgram.description} ▼
     </Button>
   }
 
   const result = []
   const programIdentifiers = Object.keys(PROGRAM_PRESETS) as (keyof typeof PROGRAM_PRESETS)[]
-  for (const programIdentifier of programIdentifiers) {
-    const program = PROGRAM_PRESETS[programIdentifier]
-    result.push(<Button key={program.name} size="lg" className="h-12 rounded-xl" onClick={() => onSelectProgram(programIdentifier, program)}>
+  for (const program of PROGRAM_PRESETS) {
+    result.push(<Button key={program.name} size="lg" className="h-12 rounded-xl" onClick={() => onSelectProgram(program)}>
+      { program.identifier == selectedProgram.identifier ? "▶ " : "" }
       {program.name} - {program.description}
+      { program.identifier == selectedProgram.identifier ? " ◀" : "" }
     </Button>)
   }
 

@@ -8,6 +8,7 @@ export interface Split {
 }
 
 export interface Program {
+  identifier: string
   name: string
   description: string
   splits: Split[]
@@ -62,8 +63,9 @@ function misc(duration: number, title: string): Split {
   }
 }
 
-export const PROGRAM_PRESETS = {
-  quick_exp: {
+export const PROGRAM_PRESETS: Program[] = [
+  {
+    identifier: "quick_exp",
     name: "Quick EXP",
     description: "0:10 walk, 0:30 run, 0:30 sprint, 1:00 walk",
     splits: [
@@ -73,7 +75,8 @@ export const PROGRAM_PRESETS = {
       walk(60),
     ]
   },
-  video_log: {
+  {
+    identifier: "video_log",
     name: "Video Log",
     description: "2:00, 3:00, 1:00, 1:00, 2:00, 1:00",
     splits: [
@@ -85,7 +88,8 @@ export const PROGRAM_PRESETS = {
       misc(60*1, "Tomorrow/Goal"),
     ],
   },
-  program_a1: {
+  {
+    identifier: "program_a1",
     name: "Program A1",
     description: "1:00 on, 1:30 off, 20:00 active",
     splits: [
@@ -109,7 +113,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  program_a2: {
+  {
+    identifier: "program_a2",
     name: "Program A2",
     description: "1:00 on, 1:15 off, 20:00 active",
     splits: [
@@ -135,7 +140,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  program_b1: {
+  {
+    identifier: "program_b1",
     name: "Program B1",
     description: "1:15 on, 1:15 off, 20:00 active",
     splits: [
@@ -159,7 +165,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  program_b2: {
+  {
+    identifier: "program_b2",
     name: "Program B2",
     description: "1:15 on, 1:00 off, 20:00 active",
     splits: [
@@ -185,7 +192,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  bike_hiit_a1: {
+  {
+    identifier: "bike_hiit_a1",
     name: "Bike HIIT A1",
     description: "1:00 sprint, 1:30 walk, 1:30 run, 20:00 active",
     splits: [
@@ -208,7 +216,8 @@ export const PROGRAM_PRESETS = {
       cool_down(),
     ]
   },
-  bike_hiit_a2: {
+  {
+    identifier: "bike_hiit_a2",
     name: "Bike HIIT A2",
     description: "1:15 sprint, 1:30 walk, 1:15 run, 20:30 active",
     splits: [
@@ -231,7 +240,7 @@ export const PROGRAM_PRESETS = {
       cool_down(4*60 + 30),
     ]
   },
-}
+]
 
 export interface Score {
   multiplier: number,
