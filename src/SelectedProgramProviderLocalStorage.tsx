@@ -26,6 +26,8 @@ export default function SelectedProgramProviderLocalStorage({ children }: Select
   const [selectedProgram, _setSelectedProgram] = useState(storedProgram)
 
   const setSelectedProgram = (program: Program) => {
+    // Ensure the program is changing before sending the changed program along so that
+    // programs currently in progress have less of a chance to be restarted.
     if (selectedProgram.identifier != program.identifier) {
       localStorage.setItem("program.current", program.identifier)
       _setSelectedProgram(structuredClone(program))
