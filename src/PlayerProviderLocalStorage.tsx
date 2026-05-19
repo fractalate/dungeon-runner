@@ -1,6 +1,6 @@
 import { ReactNode, useMemo, useState } from "react"
 import { PlayerContext } from "./PlayerContext"
-import { Player } from "./lib/player"
+import { newPlayerObject, Player, upgradePlayerObject } from "./lib/player"
 
 type PlayerProviderLocalStorageProps = {
   children: ReactNode
@@ -12,11 +12,7 @@ export default function PlayerProviderLocalStorage({ children }: PlayerProviderL
 
     if (playerData) {
       try {
-        const result = JSON.parse(playerData)
-        if (result.events == null) {
-          result.events = []
-        }
-        return result as Player
+        return upgradePlayerObject(JSON.parse(playerData))
       } catch (err) {
         console.error(err)
       }
@@ -24,12 +20,7 @@ export default function PlayerProviderLocalStorage({ children }: PlayerProviderL
 
     console.log("couldn't load player data. making new player")
 
-    return {
-      level: 1,
-      exp_gained: 0,
-      programs_finished: 0,
-      events: [],
-    }
+    return newPlayerObject()
   }, [])
 
   const [player, _setPlayer] = useState(stored_player)

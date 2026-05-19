@@ -1,4 +1,3 @@
-// level 2 should take about 6000 exp to reach from level 1
 export interface Player {
   level: number,
   exp_gained: number,
@@ -6,7 +5,33 @@ export interface Player {
   events: PlayerEvent[],
 }
 
-export function popPlayerEvent(player: Player): Player {
+export function upgradePlayerObject(player: Player): Player {
+  player = structuredClone(player)
+  if (player.level == null) {
+    player.level = 1
+  }
+  if (player.exp_gained == null) {
+    player.exp_gained = 0
+  }
+  if (player.programs_finished == null) {
+    player.programs_finished = 0
+  }
+  if (player.events == null) {
+    player.events = []
+  }
+  return player
+}
+
+export function newPlayerObject(): Player {
+  return {
+    level: 1,
+    exp_gained: 0,
+    programs_finished: 0,
+    events: [],
+  }
+}
+
+function popPlayerEvent(player: Player): Player {
   const result = structuredClone(player)
   result.events.shift()
   return result
