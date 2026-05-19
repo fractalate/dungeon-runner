@@ -12,6 +12,7 @@ export interface Program {
   name: string
   description: string
   splits: Split[]
+  exp_class: number // TODO we need to incorporate this into the exp calculation logic. the exp calculation logic needs rethinking. player exp amounts for levels need rethinking too
 }
 
 function warm_up(): Split {
@@ -55,39 +56,18 @@ function walk(duration: number): Split {
   }
 }
 
-function misc(duration: number, title: string): Split {
+function misc(duration: number, title: string, effort_level?: "walk" | "run" | "sprint"): Split {
   return {
     duration,
     title,
-    effort_level: "walk",
+    effort_level: effort_level == null ? "walk" : effort_level,
   }
 }
 
+const EXP_CLASS_FOR_EXERCISE = 1.0
+const EXP_CLASS_FOR_STUDY = 0.25
+
 export const PROGRAM_PRESETS: Program[] = [
-  {
-    identifier: "quick_exp",
-    name: "Quick EXP",
-    description: "0:10 walk, 0:30 run, 0:30 sprint, 1:00 walk",
-    splits: [
-      walk(10),
-      run(30),
-      sprint(30),
-      walk(60),
-    ]
-  },
-  {
-    identifier: "video_log",
-    name: "Video Log",
-    description: "2:00, 3:00, 1:00, 1:00, 2:00, 1:00",
-    splits: [
-      misc(60*2, "How am I?"),
-      misc(60*3, "My Day"),
-      misc(60*1, "Important Thing 1"),
-      misc(60*1, "Important Thing 2"),
-      misc(60*2, "Important Thing 3"),
-      misc(60*1, "Tomorrow/Goal"),
-    ],
-  },
   {
     identifier: "program_a1",
     name: "Program A1",
@@ -111,7 +91,8 @@ export const PROGRAM_PRESETS: Program[] = [
       run(60),
       walk(90),
       cool_down(),
-    ]
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
   },
   {
     identifier: "program_a2",
@@ -138,7 +119,8 @@ export const PROGRAM_PRESETS: Program[] = [
       run(60),
       walk(60),
       cool_down(),
-    ]
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
   },
   {
     identifier: "program_b1",
@@ -163,7 +145,8 @@ export const PROGRAM_PRESETS: Program[] = [
       run(75),
       walk(75),
       cool_down(),
-    ]
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
   },
   {
     identifier: "program_b2",
@@ -190,7 +173,8 @@ export const PROGRAM_PRESETS: Program[] = [
       run(75),
       walk(45),
       cool_down(),
-    ]
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
   },
   {
     identifier: "bike_hiit_a1",
@@ -214,7 +198,8 @@ export const PROGRAM_PRESETS: Program[] = [
       walk(90),
       sprint(60),
       cool_down(),
-    ]
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
   },
   {
     identifier: "bike_hiit_a2",
@@ -238,7 +223,44 @@ export const PROGRAM_PRESETS: Program[] = [
       walk(90),
       sprint(75),
       cool_down(4*60 + 30),
-    ]
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
+  },
+  {
+    identifier: "pomo_25_5",
+    name: "Pomodoro 25/5",
+    description: "25:00 study, 5:00 break",
+    splits: [
+      misc(25, "Study", "run"),
+      misc(5, "Break", "walk"),
+    ],
+    exp_class: EXP_CLASS_FOR_STUDY,
+  },
+  {
+    identifier: "video_log",
+    name: "Video Log",
+    description: "2:00, 3:00, 1:00, 1:00, 2:00, 1:00",
+    splits: [
+      misc(60*2, "How am I?"),
+      misc(60*3, "My Day"),
+      misc(60*1, "Important Thing 1"),
+      misc(60*1, "Important Thing 2"),
+      misc(60*2, "Important Thing 3"),
+      misc(60*1, "Tomorrow/Goal"),
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
+  },
+  {
+    identifier: "quick_exp",
+    name: "Quick EXP",
+    description: "0:10 walk, 0:30 run, 0:30 sprint, 1:00 walk",
+    splits: [
+      walk(10),
+      run(30),
+      sprint(30),
+      walk(60),
+    ],
+    exp_class: EXP_CLASS_FOR_EXERCISE,
   },
 ]
 
@@ -314,7 +336,7 @@ export function getScore(program: Program, time: Time): Score {
 
     if (i >= time.split_number) {
       if (split.additional_multiplier) {
-        score.multiplier += split.additional_multiplier 
+        score.multiplier += split.additional_multiplier
       }
       break
     }
