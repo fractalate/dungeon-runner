@@ -231,8 +231,8 @@ export const PROGRAM_PRESETS: Program[] = [
     name: "Pomodoro 25/5",
     description: "25:00 study, 5:00 break",
     splits: [
-      misc(25, "Study", "run"),
-      misc(5, "Break", "walk"),
+      misc(60*25, "Study", "run"),
+      misc(60*5, "Break", "walk"),
     ],
     exp_class: EXP_CLASS_FOR_STUDY,
   },
